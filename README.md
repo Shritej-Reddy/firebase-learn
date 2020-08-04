@@ -71,3 +71,20 @@ DEPLOYMENT DONE
 go to firebase console and head on over to authentication tab-> enable google in sign-in method tab
 Add user if u want to
 code is in app.js for user authentication
+
+# Database Rules
+
+rules_version = '2';
+service cloud.firestore {
+match /databases/{database}/documents {
+
+match /{document=\*\*} {
+allow read, write: if false;
+}
+
+match /things/{docId} {
+allow write: if request.auth.uid == request.resource.data.uid;
+allow read: if request.auth.uid == resource.data.uid;
+}
+}
+}
